@@ -3,6 +3,7 @@
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
+const form = document.querySelector('form');
 
 (function($) {
 
@@ -254,5 +255,45 @@
 			});
 
 		}
+
+		function sendEmail() {
+			// Get form values (or other data)
+			let name = document.getElementById('name').value;
+			let email = document.getElementById('email').value;
+			let message = document.getElementById('message').value;
+		
+			Email.send({
+				Host:"smtp.elasticemail.com",
+				Username:"sergelafarge@gmail.com",
+				Password:"F9CC31C73028028AB1C119FF702976EB8C7D",
+				To: 'sergelafarge@gmail.com', // Replace with the recipient's email
+				From: "sergelafarge@gmail.com", // Replace with the sender's email
+				Subject: "Contact Form Submission",
+				// Body: "And This is the body",
+				Body: `
+				  Name: ${name}<br>
+				  Email: ${email}<br>
+				  Message: ${message}
+				`
+			  })
+			  .then(function(message) {
+				alert("Email sent successfully!");
+			  })
+			  .catch(function(error) {
+				console.error("Error sending email:", error);
+				alert("Failed to send email. Please try again.");
+			  });
+		  }
+		
+		  // Example:  Assuming you have a form with an ID of 'contactForm' and a button with ID 'submitButton'
+		  $('#contactForm').submit(function(event) {
+			event.preventDefault(); // Prevent the default form submission
+			sendEmail(); // Call the sendEmail function
+		  });
+		
+	form.addEventListener('submit', function(event) {
+		event.preventDefault(); // Prevent the default form submission
+		sendEmail(); // Call the sendEmail function
+	});	
 
 })(jQuery);
